@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -14,6 +15,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
+import LogoutIcon from "@material-ui/icons/ExitToApp";
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -77,7 +79,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar(props) {
+  const history = useHistory();
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -159,6 +162,27 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
+  const logout = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const url = "https://127.0.0.1:5000/user/logout";
+      const response = await fetch(url, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token}`
+        }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        if (data.code === 200) {
+          props.setUser(null);
+          localStorage.removeItem("token");
+          history.push("/login");
+        }
+      }
+    }
+  };
+
   return (
     <div className={classes.grow}>
       <AppBar position="static">
@@ -189,6 +213,9 @@ export default function PrimarySearchAppBar() {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+            <IconButton onClick={logout} aria-label="show 4 new mails" color="inherit">
+              <LogoutIcon />
+            </IconButton>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />

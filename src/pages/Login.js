@@ -1,24 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-// import Link from "@material-ui/core/Link";
+import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import {Link} from 'react-router-dom'
+import { Link as RouterLink } from "react-router-dom";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="#">
+      <Link color="inherit" to="/">
         Your Website
       </Link>{" "}
       {new Date().getFullYear()}
@@ -47,8 +49,44 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignIn() {
+export default function SignIn(props) {
   const classes = useStyles();
+  const [email, setEmail] = useState("hang@gmail.com");
+  const [password, setPassword] = useState("");
+  const history = useHistory();
+
+  const signIn = async e => {
+    e.preventDefault();
+    const url = "https://127.0.0.1:5000/user/login";
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      })
+    });
+    if (response.ok) {
+      const data = await response.json();
+      if (data.code === 200) {
+        localStorage.setItem("token", data.apiKey);
+        props.setUser(data.user);
+        history.push("/home");
+        props.setOpen(true);
+        props.setMessage(`Welcome back ${data.user.email}`);
+        props.setVariant("success");
+      } else if (data.code === 401) {
+        props.setUser(null);
+        localStorage.removeItem("token");
+        // props.setOpen(true);
+        // props.setMessage("Invalid email or password");
+        // props.setVariant("error");
+        props.setToast({ open: true, variant: "error", message: "Invalid" });
+      }
+    }
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -71,6 +109,10 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            value={email}
+            onChange={e => {
+              setEmail(e.target.value);
+            }}
           />
           <TextField
             variant="outlined"
@@ -82,6 +124,10 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={password}
+            onChange={e => {
+              setPassword(e.target.value);
+            }}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -93,19 +139,31 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={signIn}
           >
-            Sign In
+            LogIn
           </Button>
+          <Link href="https://127.0.0.1:5000/login/google/authorized">
+            <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Login with Google
+            </Button>
+          </Link>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <RouterLink to="#" variant="body2">
                 Forgot password?
-              </Link>
+              </RouterLink>
             </Grid>
             <Grid item>
-              <Link to="./signup" variant="body2">
+              <RouterLink to="./signup" variant="body2">
                 {"Don't have an account? Sign Up"}
-              </Link>
+              </RouterLink>
             </Grid>
           </Grid>
         </form>
