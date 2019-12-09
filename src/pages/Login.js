@@ -139,7 +139,7 @@ export default function SignIn(props) {
           >
             LogIn
           </Button>
-          <Link href="https://fakebook-fs.herokuapp.com/login/google">
+          <Link href={`${process.env.REACT_APP_API_URL}/login/google`}>
             <Button
               type="button"
               fullWidth
