@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import nofify from "../utils/Notification"
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -14,6 +15,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link } from "react-router-dom";
+import notify from './../utils/Notification';
 
 function Copyright() {
   return (
@@ -48,9 +50,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignUp() {
+export default function SignUp(props) {
   const classes = useStyles();
-  const [email, setEmail] = useState("hang@gmail.com");
+  const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
@@ -76,9 +78,9 @@ export default function SignUp() {
       const data = await response.json();
       if (data.code === 200) {
         history.push("/login");
-        console.log("user created");
+        notify("Info", "Successfully created account", "success")
       } else if (data.code === 409) {
-        console.log("Email alredy exist!");
+        nofify("Error", "Email alredy exist!", "danger")
       }
     }
   };

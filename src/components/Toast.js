@@ -91,7 +91,7 @@ const useStyles2 = makeStyles(theme => ({
 
 export default function Toast(props) {
   const classes = useStyles2();
-
+  const { toast } = props;
   return (
     <div>
       <Snackbar
@@ -99,18 +99,18 @@ export default function Toast(props) {
           vertical: "bottom",
           horizontal: "center"
         }}
-        open={props.toast.open}
+        open={toast.open}
         autoHideDuration={6000}
         onClose={() => {
-          props.setToast({...props.toast, open: false});
+          props.setToast({ ...toast, open: false });
         }}
       >
         <MySnackbarContentWrapper
           onClose={() => {
-            props.setToast({...props.toast, open: false});
+            props.setToast({ ...toast, open: false });
           }}
-          variant={props.toast.variant}
-          message={props.toast.message}
+          variant={toast.variant}
+          message={toast.message}
         />
       </Snackbar>
     </div>

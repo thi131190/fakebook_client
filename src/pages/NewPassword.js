@@ -1,21 +1,17 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { Link as RouterLink } from "react-router-dom";
-import notify from "./../utils/Notification";
+import notify from "../utils/Notification";
 
 function Copyright() {
   return (
@@ -50,36 +46,36 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SignIn(props) {
+export default function NewPassword(props) {
   const classes = useStyles();
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const history = useHistory();
+  const { token } = useParams();
 
-  const signIn = async e => {
+  const newPassword = async e => {
     e.preventDefault();
-    const url = "https://127.0.0.1:5000/user/login";
+
+    const url = `https://127.0.0.1:5000/user/new-password/${token}`;
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        email: email,
-        password: password
+        password: password,
+        confirm_password: confirmPassword
       })
     });
     if (response.ok) {
       const data = await response.json();
       if (data.code === 200) {
-        localStorage.setItem("token", data.apiKey);
-        props.setUser(data.user);
-        history.push("/");
-        notify("Info", `Welcome ${data.user.email}!`, "success");
-      } else if (data.code === 401) {
-        props.setUser(null);
-        localStorage.removeItem("token");
-        notify("Error", "Invalid email or password!", "danger");
+        history.push("/login");
+        notify("Info", "Create new password successfully", "success");
+      } else if (data.code === 400) {
+        notify("Error", "Password not match!", "danger");
+      } else if (data.code === 404) {
+        notify("Error", "Invalid Token", "danger");
       }
     }
   };
@@ -92,7 +88,7 @@ export default function SignIn(props) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          New password
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -100,14 +96,15 @@ export default function SignIn(props) {
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="password"
+            label="New password"
+            name="password"
+            autoComplete="password"
             autoFocus
-            value={email}
+            type="password"
+            value={password}
             onChange={e => {
-              setEmail(e.target.value);
+              setPassword(e.target.value);
             }}
           />
           <TextField
@@ -115,19 +112,15 @@ export default function SignIn(props) {
             margin="normal"
             required
             fullWidth
-            name="password"
-            label="Password"
-            type="password"
             id="password"
-            autoComplete="current-password"
-            value={password}
+            type="password"
+            label="Confirm password"
+            name="confirmPassword"
+            autoComplete="confirm password"
+            value={confirmPassword}
             onChange={e => {
-              setPassword(e.target.value);
+              setConfirmPassword(e.target.value);
             }}
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
           />
           <Button
             type="submit"
@@ -135,33 +128,10 @@ export default function SignIn(props) {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={signIn}
+            onClick={newPassword}
           >
-            LogIn
+            Send
           </Button>
-          <Link href="https://127.0.0.1:5000/login/google">
-            <Button
-              type="button"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Login with Google
-            </Button>
-          </Link>
-          <Grid container>
-            <Grid item xs>
-              <RouterLink to="/forgot-password" variant="body2">
-                Forgot password?
-              </RouterLink>
-            </Grid>
-            <Grid item>
-              <RouterLink to="./signup" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </RouterLink>
-            </Grid>
-          </Grid>
         </form>
       </div>
       <Box mt={8}>
