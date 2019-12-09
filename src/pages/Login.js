@@ -58,7 +58,7 @@ export default function SignIn(props) {
 
   const signIn = async e => {
     e.preventDefault();
-    const url = "https://127.0.0.1:5000/user/login";
+    const url = `${process.env.REACT_APP_API_URL}/user/login`;
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -139,7 +139,7 @@ export default function SignIn(props) {
           >
             LogIn
           </Button>
-          <Link href="https://127.0.0.1:5000/login/google">
+          <Link href="https://fakebook-fs.herokuapp.com/login/google">
             <Button
               type="button"
               fullWidth
