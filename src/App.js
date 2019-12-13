@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import "./App.css";
@@ -13,10 +14,13 @@ import ReactNotifications from "react-notifications-component";
 import notify from "./utils/Notification";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Profile from "./pages/Profile";
+import Users from "./pages/Users";
 
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [searchResults, setSearchResults] = useState(null);
 
   function getParam(name) {
     const url = window.location.href;
@@ -31,7 +35,6 @@ function App() {
     const token = localStorage.getItem("token") || getParam("api_key");
     if (token) {
       const url = `${process.env.REACT_APP_API_URL}/user/get_user`;
-      console.log("URL", url);
       const response = await fetch(url, {
         headers: {
           "Content-Type": "application/json",
@@ -58,7 +61,11 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar user={user} setUser={setUser} />
+      <Navbar
+        user={user}
+        setUser={setUser}
+        setSearchResults={setSearchResults}
+      />
       <ReactNotifications />
       {loading
         ? <CircularProgress />
@@ -75,6 +82,12 @@ function App() {
               </Route>
               <Route path="/new-password/:token">
                 <NewPassword />
+              </Route>
+              <Route path="/users">
+                <Users searchResults={searchResults} />
+              </Route>
+              <Route path="/profile/:id">
+                <Profile user={user} />
               </Route>
               <ProtectedRoute path="/home">
                 <Home user={user} />

@@ -153,7 +153,7 @@ export default function SignIn(props) {
           <Grid container>
             <Grid item xs>
               <RouterLink to="/forgot-password" variant="body2">
-                Forgot password?
+                Forgot password
               </RouterLink>
             </Grid>
             <Grid item>

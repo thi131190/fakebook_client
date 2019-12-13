@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -16,6 +16,8 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
+import Avatar from "@material-ui/core/Avatar";
+import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -85,6 +87,8 @@ export default function PrimarySearchAppBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const { user } = props;
+  const token = localStorage.getItem("token");
+  const [keyword, setKeyword] = useState("");
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -164,10 +168,7 @@ export default function PrimarySearchAppBar(props) {
   );
 
   const logout = async () => {
-    const token = localStorage.getItem("token");
     if (token) {
-      // const url = "https://127.0.0.1:5000/user/logout";
-      // const url = "https://fakebook-fs.herokuapp.com/user/logout";
       const url = `${process.env.REACT_APP_API_URL}/user/logout`;
       const response = await fetch(url, {
         headers: {
@@ -184,6 +185,24 @@ export default function PrimarySearchAppBar(props) {
         }
       }
     }
+  };
+
+  const search = async () => {
+    const url = `${process.env.REACT_APP_API_URL}/user/search/${keyword}`;
+    const response = await fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`
+      }
+    });
+    if (response.ok) {
+      const data = await response.json();
+      setKeyword("");
+      props.setSearchResults(data);
+      history.push("/users");
+    }
+
+    return;
   };
 
   return (
@@ -205,22 +224,26 @@ export default function PrimarySearchAppBar(props) {
           </Link>
 
           <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
             <InputBase
-              placeholder="Search…"
+              placeholder=""
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput
               }}
+              value={keyword}
+              onChange={e => {
+                setKeyword(e.target.value);
+              }}
               inputProps={{ "aria-label": "search" }}
             />
+            <Button onClick={search}>
+              <SearchIcon />
+            </Button>
           </div>
           <div className={classes.grow} />
           {user &&
             <div className={classes.sectionDesktop}>
-              <IconButton aria-label="show 4 new mails" color="inherit">
+              {/* <IconButton aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={4} color="secondary">
                   <MailIcon />
                 </Badge>
@@ -232,16 +255,24 @@ export default function PrimarySearchAppBar(props) {
                 <Badge badgeContent={17} color="secondary">
                   <NotificationsIcon />
                 </Badge>
-              </IconButton>
+              </IconButton> */}
               <IconButton
                 edge="end"
                 aria-label="account of current user"
                 aria-controls={menuId}
                 aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
+                // onClick={handleProfileMenuOpen}
                 color="inherit"
               >
-                <AccountCircle />
+                <Link to={`/profile/${props.user.id}`}>
+                  <Avatar
+                    alt="..."
+                    src={
+                      props.user.avatar ||
+                      "https://image.flaticon.com/icons/svg/747/747376.svg"
+                    }
+                  />
+                </Link>
               </IconButton>
               <IconButton
                 onClick={logout}
