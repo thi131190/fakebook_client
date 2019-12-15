@@ -79,7 +79,6 @@ export default function Profile(props) {
             src={profile && profile.avatar}
             className="avatar-profile"
           />
-          // eslint-disable-next-line eqeqeq
           {user.id != id &&
             <i>
               {profile && profile.isFollowing
