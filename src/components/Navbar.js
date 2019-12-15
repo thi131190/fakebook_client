@@ -4,7 +4,6 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -207,7 +206,7 @@ export default function PrimarySearchAppBar(props) {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             edge="start"
@@ -215,30 +214,39 @@ export default function PrimarySearchAppBar(props) {
             color="inherit"
             aria-label="open drawer"
           >
-            <MenuIcon />
+            {/* <MenuIcon /> */}
           </IconButton>
-          <Link to="/">
+          {/* <Link to="/">
             <Typography className={classes.title} variant="h6" noWrap>
               Fakebook
             </Typography>
-          </Link>
-
-          <div className={classes.search}>
-            <InputBase
-              placeholder=""
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput
-              }}
-              value={keyword}
-              onChange={e => {
-                setKeyword(e.target.value);
-              }}
-              inputProps={{ "aria-label": "search" }}
+          </Link> */}
+          <Link to="/">
+            <img
+              className="logo-nav"
+              alt="..."
+              src="https://s8.upanh.pro/2019/12/13/logo-02.png"
             />
-            <Button onClick={search}>
-              <SearchIcon />
-            </Button>
+          </Link>
+          <div className={classes.search}>
+            {user &&
+              <span>
+                <InputBase
+                  placeholder=""
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput
+                  }}
+                  value={keyword}
+                  onChange={e => {
+                    setKeyword(e.target.value);
+                  }}
+                  inputProps={{ "aria-label": "search" }}
+                />
+                <Button onClick={search}>
+                  <SearchIcon style={{ color: "#FFFFFF" }} />
+                </Button>
+              </span>}
           </div>
           <div className={classes.grow} />
           {user &&

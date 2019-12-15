@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import ForgotPassword from "./pages/ForgotPassword";
 import NewPassword from "./pages/NewPassword";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import ReactNotifications from "react-notifications-component";
 import notify from "./utils/Notification";
 
@@ -96,6 +97,7 @@ function App() {
                 <Home user={user} />
               </ProtectedRoute>
             </Switch>
+            {/* <Footer /> */}
           </div>}
     </div>
   );

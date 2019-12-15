@@ -61,20 +61,59 @@ export default function Profile(props) {
   );
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Avatar alt="Remy Sharp" src={profile && profile.avatar} />
-      Email: {profile && profile.email}
-      <br />
-      Fistname: {profile && profile.firstname}
-      <br />
-      Lastname: {profile && profile.lastname}
-      <br />
-      {user.id != id &&
-        <i>
-          {profile && profile.isFollowing
-            ? <Button onClick={unfollow}>UnFollow</Button>
-            : <Button onClick={follow}>Follow</Button>}
-        </i>}
-    </Container>
+    <div className="profile-img-details">
+      <div className="title-img-profile-left">
+        <h2>
+          <strong>Let's share something to other people now</strong>
+        </h2>
+        <img
+          src="https://s8.upanh.pro/2019/12/15/profile-bcg.png"
+          alt="..."
+          className="profile-img-left"
+        />;
+      </div>
+      <Container component="main" maxWidth="xs" className="profile-details">
+        <div className="avatar-email-names-profile">
+          <Avatar
+            alt="Remy Sharp"
+            src={profile && profile.avatar}
+            className="avatar-profile"
+          />
+          // eslint-disable-next-line eqeqeq
+          {user.id != id &&
+            <i>
+              {profile && profile.isFollowing
+                ? <Button onClick={unfollow} className="follow-btn-profile">
+                    UnFollow
+                  </Button>
+                : <Button onClick={follow} className="follow-btn-profile">
+                    Follow
+                  </Button>}
+            </i>}
+          <h6 style={{ color: "#8A949C" }}>
+            <strong>Email</strong>
+          </h6>
+          <h5 style={{ color: "#02233A" }}>
+            {profile && profile.email}
+          </h5>
+          <hr />
+          <h6 style={{ color: "#8A949C" }}>
+            <strong>Fistname</strong>
+          </h6>
+          <h5 style={{ color: "#02233A" }}>
+            {profile && profile.firstname}
+          </h5>
+
+          <hr />
+          <h6 style={{ color: "#8A949C" }}>
+            <strong>Lastname</strong>
+          </h6>
+          <h5 style={{ color: "#02233A" }}>
+            {profile && profile.lastname}
+          </h5>
+          <hr />
+        </div>
+      </Container>
+    </div>
   );
 }

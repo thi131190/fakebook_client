@@ -58,7 +58,7 @@ export default function NewComment(props) {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="md">
       <div className={classes.paper}>
         <form className={classes.form} noValidate>
           <TextField

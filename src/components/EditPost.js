@@ -30,6 +30,7 @@ const useStyles = makeStyles(theme => ({
 export default function EditPost(props) {
   const classes = useStyles();
   const [body, setBody] = useState(props.post.body);
+  const [imageUrl, setImageUrl] = useState(props.post.imgUrl);
 
   const edit = async e => {
     e.preventDefault();
@@ -43,7 +44,8 @@ export default function EditPost(props) {
           Authorization: `Token ${token}`
         },
         body: JSON.stringify({
-          body: body
+          body: body,
+          image_url: imageUrl
         })
       });
       if (response.ok) {
@@ -60,7 +62,6 @@ export default function EditPost(props) {
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <div className={classes.paper}>
         <form className={classes.form} noValidate>
           <TextField
@@ -73,6 +74,18 @@ export default function EditPost(props) {
             variant="outlined"
             onChange={e => {
               setBody(e.target.value);
+            }}
+          />
+          <TextField
+            className="mt-2"
+            id="image-url"
+            label="Image URL"
+            multiline
+            fullWidth
+            value={imageUrl}
+            variant="outlined"
+            onChange={e => {
+              setImageUrl(e.target.value);
             }}
           />
           <Button

@@ -85,88 +85,95 @@ export default function SignIn(props) {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            value={email}
-            onChange={e => {
-              setEmail(e.target.value);
-            }}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={e => {
-              setPassword(e.target.value);
-            }}
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={signIn}
-          >
-            LogIn
-          </Button>
-          <Link href={`${process.env.REACT_APP_API_URL}/login/google`}>
+    <div className="body-signup">
+      <img
+        className="image-signup"
+        alt="..."
+        src="https://s8.upanh.pro/2019/12/13/2667222.png"
+      />
+      <Container component="main" maxWidth="xs" className="signup-section">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <form className={classes.form} noValidate>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              value={email}
+              onChange={e => {
+                setEmail(e.target.value);
+              }}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={e => {
+                setPassword(e.target.value);
+              }}
+            />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
             <Button
-              type="button"
+              type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={signIn}
             >
-              Login with Google
+              LogIn
             </Button>
-          </Link>
-          <Grid container>
-            <Grid item xs>
-              <RouterLink to="/forgot-password" variant="body2">
-                Forgot password
-              </RouterLink>
+            <Link href={`${process.env.REACT_APP_API_URL}/login/google`}>
+              <Button
+                type="button"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Login with Google
+              </Button>
+            </Link>
+            <Grid container>
+              <Grid item xs>
+                <RouterLink to="/forgot-password" variant="body2">
+                  Forgot password
+                </RouterLink>
+              </Grid>
+              <Grid item>
+                <RouterLink to="./signup" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </RouterLink>
+              </Grid>
             </Grid>
-            <Grid item>
-              <RouterLink to="./signup" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </RouterLink>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
-    </Container>
+          </form>
+        </div>
+        <Box mt={8}>
+          <Copyright />
+        </Box>
+      </Container>
+    </div>
   );
 }

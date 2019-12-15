@@ -10,7 +10,7 @@ import notify from "./../utils/Notification";
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    marginTop: theme.spacing(8),
+    // marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
     alignItems: "center"
@@ -31,6 +31,7 @@ const useStyles = makeStyles(theme => ({
 export default function NewPost(props) {
   const classes = useStyles();
   const [body, setBody] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const post = async e => {
     e.preventDefault();
     const token = localStorage.getItem("token");
@@ -43,7 +44,8 @@ export default function NewPost(props) {
           Authorization: `Token ${token}`
         },
         body: JSON.stringify({
-          body: body
+          body: body,
+          image_url: imageUrl
         })
       });
       if (response.ok) {
@@ -58,37 +60,50 @@ export default function NewPost(props) {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
-          New post
-        </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            id="post"
-            label="What's on your mind?"
-            multiline
-            fullWidth
-            rows="4"
-            value={body}
-            variant="outlined"
-            onChange={e => {
-              setBody(e.target.value);
-            }}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={post}
-          >
-            Post
-          </Button>
-        </form>
-      </div>
-    </Container>
+    <div>
+      <Container component="main" maxWidth="xs">
+        <div className={classes.paper}>
+          <Typography component="h1" variant="h5">
+            New post
+          </Typography>
+          <form className={classes.form} noValidate>
+            <TextField
+              id="post"
+              label="What's on your mind?"
+              multiline
+              fullWidth
+              rows="4"
+              value={body}
+              variant="outlined"
+              onChange={e => {
+                setBody(e.target.value);
+              }}
+            />
+            <TextField
+              className="mt-2"
+              id="image-url"
+              label="Image URL"
+              multiline
+              fullWidth
+              value={imageUrl}
+              variant="outlined"
+              onChange={e => {
+                setImageUrl(e.target.value);
+              }}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={post}
+            >
+              Post
+            </Button>
+          </form>
+        </div>
+      </Container>
+    </div>
   );
 }
