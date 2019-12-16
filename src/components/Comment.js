@@ -47,7 +47,7 @@ export default function Comment(props) {
                   className="date-comment"
                   color="textPrimary"
                 >
-                  <Moment locale="vn" add={{ minutes: 33 }} fromNow>
+                  <Moment fromNow>
                     {props.comment.created_at}
                   </Moment>
                 </small>

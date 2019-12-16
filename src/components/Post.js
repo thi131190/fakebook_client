@@ -152,7 +152,7 @@ export default function Post(props) {
 
                 <div className="d-flex justify-content-between align-items-center">
                   <small className="text-muted">
-                    <Moment add={{ hours: 16 }} fromNow>
+                    <Moment fromNow>
                       {post && post.created_at}
                     </Moment>
                   </small>
