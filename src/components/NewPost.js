@@ -74,7 +74,7 @@ export default function NewPost(props) {
   const uploadHandler = e => {
     e.preventDefault();
     setUploading(true);
-    console.log(file);
+    console.log(config);
     if (file) {
       uploadFile(file, config)
         .then(data => {
