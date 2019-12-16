@@ -44,6 +44,29 @@ export default function Post(props) {
     setOpen(true);
   };
 
+  const deletePost = async (e, id) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    if (token) {
+      const url = `${process.env.REACT_APP_API_URL}/posts/${id}`;
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token}`
+        }
+      });
+      if (response.ok) {
+        console.log("RES", response);
+
+        const data = await response.json();
+        if (data.code === 200) {
+          props.getPosts();
+        }
+      }
+    }
+  };
+
   const like = async (event, id) => {
     event.preventDefault();
     const url = `${process.env.REACT_APP_API_URL}/posts/${id}/like`;
@@ -135,13 +158,24 @@ export default function Post(props) {
                   </small>
                   <div className="btn-group">
                     {post.author.id === props.user.id &&
-                      <button
-                        onClick={event => edit(event, post.id)}
-                        type="button"
-                        className="btn btn-sm btn-outline-secondary"
-                      >
-                        Edit
-                      </button>}
+                      <span>
+                        <button
+                          onClick={event => {
+                            deletePost(event, post.id);
+                          }}
+                          type="button"
+                          className="btn btn-sm btn-outline-secondary"
+                        >
+                          Delete
+                        </button>
+                        <button
+                          onClick={event => edit(event, post.id)}
+                          type="button"
+                          className="btn btn-sm btn-outline-secondary"
+                        >
+                          Edit
+                        </button>
+                      </span>}
                     <button
                       type="button"
                       onClick={e => {
@@ -185,6 +219,7 @@ export default function Post(props) {
       </Container>
       <img
         className="home-img-right"
+        alt="..."
         src="https://s8.upanh.pro/2019/12/15/bcg-3.png"
       />
     </div>

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import notify from "./../utils/Notification";
+import { uploadFile } from "react-s3";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -32,8 +33,17 @@ export default function NewPost(props) {
   const classes = useStyles();
   const [body, setBody] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const post = async e => {
-    e.preventDefault();
+  const [file, setFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const config = {
+    bucketName: "fakebook-fs",
+    dirName: "fakebook" /* optional */,
+    region: "us-west-2",
+    accessKeyId: `${process.env.REACT_APP_CLIENT}`,
+    secretAccessKey: `${process.env.REACT_APP_KEY}`
+  };
+
+  const post = async s3URL => {
     const token = localStorage.getItem("token");
     if (token) {
       const url = `${process.env.REACT_APP_API_URL}/posts/`;
@@ -45,13 +55,15 @@ export default function NewPost(props) {
         },
         body: JSON.stringify({
           body: body,
-          image_url: imageUrl
+          image_url: s3URL
         })
       });
       if (response.ok) {
         const data = await response.json();
         if (data.code === 200) {
           setBody("");
+          setUploading(false);
+          props.handleClose();
           props.getPosts();
           notify("Info", `Created new post`, "success");
         }
@@ -59,6 +71,28 @@ export default function NewPost(props) {
     }
   };
 
+  const uploadHandler = e => {
+    e.preventDefault();
+    setUploading(true);
+    console.log(file);
+    if (file) {
+      uploadFile(file, config)
+        .then(data => {
+          console.log("URL", data.location);
+          setImageUrl(data.location);
+          post(data.location);
+        })
+        .catch(err => console.error(err));
+    } else {
+      post("");
+    }
+  };
+
+  const onChangeHandler = e => {
+    setFile(e.target.files[0]);
+  };
+
+  console.log(file);
   return (
     <div>
       <Container component="main" maxWidth="xs">
@@ -79,7 +113,7 @@ export default function NewPost(props) {
                 setBody(e.target.value);
               }}
             />
-            <TextField
+            {/* <TextField
               className="mt-2"
               id="image-url"
               label="Image URL"
@@ -90,16 +124,35 @@ export default function NewPost(props) {
               onChange={e => {
                 setImageUrl(e.target.value);
               }}
+            /> */}
+            <input
+              accept="image/*"
+              className={classes.input}
+              style={{ display: "none" }}
+              id="raised-button-file"
+              multiple
+              type="file"
+              onChange={e => onChangeHandler(e)}
             />
+            <label htmlFor="raised-button-file">
+              <Button
+                variant="raised"
+                component="span"
+                fullWidth
+                className={classes.button}
+              >
+                Upload image
+              </Button>
+            </label>
             <Button
               type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={post}
+              onClick={uploadHandler}
             >
-              Post
+              {uploading ? "Please wait..." : "Post"}
             </Button>
           </form>
         </div>

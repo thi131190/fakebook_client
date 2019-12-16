@@ -6,6 +6,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
+import Moment from "react-moment";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,7 +29,6 @@ export default function Comment(props) {
           <Avatar alt="Remy Sharp" src={props.comment.commenter.avatar} />
         </ListItemAvatar>
         <ListItemText
-          // primary="Brunch this weekend?"
           secondary={
             <React.Fragment>
               <div className="d-flex justify-content-between">
@@ -40,14 +40,16 @@ export default function Comment(props) {
                 >
                   {props.comment.commenter.firstname}
                 </Typography>
+
                 <small
                   component="span"
                   variant="body2"
-                  // className={classes.inline}
                   className="date-comment"
                   color="textPrimary"
                 >
-                  {props.comment.created_at}
+                  <Moment locale="vn" add={{ minutes: 33 }} fromNow>
+                    {props.comment.created_at}
+                  </Moment>
                 </small>
               </div>
               <p className="body-text-comment">

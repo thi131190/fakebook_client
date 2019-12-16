@@ -186,7 +186,8 @@ export default function PrimarySearchAppBar(props) {
     }
   };
 
-  const search = async () => {
+  const search = async e => {
+    e.preventDefault();
     const url = `${process.env.REACT_APP_API_URL}/user/search/${keyword}`;
     const response = await fetch(url, {
       headers: {
@@ -231,21 +232,23 @@ export default function PrimarySearchAppBar(props) {
           <div className={classes.search}>
             {user &&
               <span>
-                <InputBase
-                  placeholder=""
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput
-                  }}
-                  value={keyword}
-                  onChange={e => {
-                    setKeyword(e.target.value);
-                  }}
-                  inputProps={{ "aria-label": "search" }}
-                />
-                <Button onClick={search}>
-                  <SearchIcon style={{ color: "#FFFFFF" }} />
-                </Button>
+                <form onSubmit={search}>
+                  <InputBase
+                    placeholder=""
+                    classes={{
+                      root: classes.inputRoot,
+                      input: classes.inputInput
+                    }}
+                    value={keyword}
+                    onChange={e => {
+                      setKeyword(e.target.value);
+                    }}
+                    inputProps={{ "aria-label": "search" }}
+                  />
+                  <Button type="submit">
+                    <SearchIcon style={{ color: "#FFFFFF" }} />
+                  </Button>
+                </form>
               </span>}
           </div>
           <div className={classes.grow} />
@@ -290,17 +293,27 @@ export default function PrimarySearchAppBar(props) {
                 <LogoutIcon />
               </IconButton>
             </div>}
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </div>
+          {user &&
+            <div className={classes.sectionMobile}>
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                // onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <Link to={`/profile/${props.user.id}`}>
+                  <Avatar
+                    alt="..."
+                    src={
+                      props.user.avatar ||
+                      "https://image.flaticon.com/icons/svg/747/747376.svg"
+                    }
+                  />
+                </Link>
+              </IconButton>
+            </div>}
         </Toolbar>
       </AppBar>
       {renderMobileMenu}

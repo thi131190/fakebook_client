@@ -61,7 +61,7 @@ export default function Profile(props) {
   );
 
   return (
-    <div className="profile-img-details">
+    <div className="profile-img-details" style={{ marginTop: "120px" }}>
       <div className="title-img-profile-left">
         <h2>
           <strong>Let's share something to other people now</strong>

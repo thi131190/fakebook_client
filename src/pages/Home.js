@@ -5,6 +5,7 @@ import Post from "../components/Post";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import Button from "@material-ui/core/Button";
+import { positions } from "@material-ui/system";
 
 export default function Home(props) {
   const [posts, setPosts] = useState([]);
@@ -35,8 +36,18 @@ export default function Home(props) {
   }, []);
 
   return (
-    <div className="body-home" style={{ marginTop: "100px" }}>
+    <div className="body-home" style={{ marginTop: "120px" }}>
       <Button
+        style={{
+          marginTop: "100px",
+          bottom: "20px",
+          right: "20px",
+          zIndex: "99",
+          position: "fixed"
+        }}
+        className="new-post-btn"
+        variant="contained"
+        color="primary"
         onClick={() => {
           setOpen(true);
         }}
