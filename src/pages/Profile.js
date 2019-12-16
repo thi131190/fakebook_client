@@ -74,13 +74,15 @@ export default function Profile(props) {
       </div>
       <Container component="main" maxWidth="xs" className="profile-details">
         <div className="avatar-email-names-profile">
+          <div>
           <Avatar
             alt="Remy Sharp"
             src={profile && profile.avatar}
             className="avatar-profile"
           />
+          </div>
           {user.id != id &&
-            <i>
+            <div className="text-center">
               {profile && profile.isFollowing
                 ? <Button onClick={unfollow} className="follow-btn-profile">
                     UnFollow
@@ -88,7 +90,7 @@ export default function Profile(props) {
                 : <Button onClick={follow} className="follow-btn-profile">
                     Follow
                   </Button>}
-            </i>}
+            </div>}
           <h6 style={{ color: "#8A949C" }}>
             <strong>Email</strong>
           </h6>

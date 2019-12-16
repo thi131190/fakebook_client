@@ -207,7 +207,7 @@ export default function PrimarySearchAppBar(props) {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="fixed">
+      <AppBar position="fixed" className="nav-area">
         <Toolbar>
           <IconButton
             edge="start"
@@ -233,6 +233,7 @@ export default function PrimarySearchAppBar(props) {
             {user &&
               <span>
                 <form onSubmit={search}>
+                  <span className="search-area">
                   <InputBase
                     placeholder=""
                     classes={{
@@ -248,7 +249,9 @@ export default function PrimarySearchAppBar(props) {
                   <Button type="submit">
                     <SearchIcon style={{ color: "#FFFFFF" }} />
                   </Button>
+                  </span>
                 </form>
+                
               </span>}
           </div>
           <div className={classes.grow} />

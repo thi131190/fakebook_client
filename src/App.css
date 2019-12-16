@@ -75,13 +75,13 @@ nav {
   position: fix;
 }
 
-/* .post-img{
-  width: 500px;
-  height: 300px;
-  margin-left: 10%;
-  margin-right: 10%;
+.post-img{
+  width: 600px;
+  height: 400px;
+  /* margin-left: 10%;
+  margin-right: 10%; */
 
-} */
+}
 .avatar-email-head-post {
   display: flex;
   /* justify-items: space-around; */
@@ -132,7 +132,7 @@ nav {
 .avatar-profile {
   width: 80px !important;
   height: 80px !important;
-  margin-left: 140px !important;
+  margin-left: 150px !important;
   margin-bottom: 20px !important;
 
   /* justify-content: center !important; */
@@ -143,7 +143,7 @@ nav {
   color: white !important;
   font-weight: 900 !important;
   margin-bottom: 20px !important;
-  margin-left: 130px !important;
+  /* margin-left: 130px !important; */
 }
 
 .search-result {
@@ -162,6 +162,17 @@ nav {
   position: fixed!;
   bottom: 0;
   right: 0;
+}
+
+.upload-btn {
+  background-color: #f8f8f8 !important;
+  margin-top: 20px !important;
+}
+
+.upload-btn:hover{
+  color: rgb(255, 255, 255);
+  background-color: #1F285A !important;
+
 }
 
 @media only screen and (max-width: 1024px) {
@@ -246,7 +257,7 @@ nav {
     color: white !important;
     font-weight: 900 !important;
     margin-bottom: 20px !important;
-    margin-left: 85px !important;
+    /* margin-left: 85px !important; */
   }
   .body-home {
     margin-top: 0px;
@@ -328,7 +339,7 @@ nav {
   .avatar-profile {
     width: 100px !important;
     height: 100px !important;
-    margin-left: 82px !important;
+    margin-left: 120px !important;
     margin-bottom: 20px !important;
 
     /* justify-content: center !important; */
@@ -348,7 +359,7 @@ nav {
     color: white !important;
     font-weight: 900 !important;
     margin-bottom: 20px !important;
-    margin-left: 85px !important;
+    /* margin-left: 85px !important; */
   }
 
   .search-result {
@@ -373,6 +384,10 @@ nav {
   .home-img-left {
     width: 300px;
     height: 220px;
+  }
+
+  .search-area{
+    display: none;
   }
 
   .home-img-right {
@@ -437,7 +452,7 @@ nav {
     color: white !important;
     font-weight: 900 !important;
     margin-bottom: 20px !important;
-    margin-left: 125px !important;
+    /* margin-left: 125px !important; */
   }
 
   .search-result {
@@ -552,7 +567,7 @@ nav {
     color: white !important;
     font-weight: 900 !important;
     margin-bottom: 20px !important;
-    margin-left: 105px !important;
+    /* margin-left: 105px !important; */
   }
 }
 
@@ -593,6 +608,6 @@ nav {
     color: white !important;
     font-weight: 900 !important;
     margin-bottom: 20px !important;
-    margin-left: 80px !important;
+    /* margin-left: 80px !important; */
   }
 }

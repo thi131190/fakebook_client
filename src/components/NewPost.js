@@ -7,7 +7,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import notify from "./../utils/Notification";
 import { uploadFile } from "react-s3";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -40,7 +39,8 @@ export default function NewPost(props) {
     dirName: "fakebook" /* optional */,
     region: "us-west-2",
     accessKeyId: `${process.env.REACT_APP_CLIENT}`,
-    secretAccessKey: `${process.env.REACT_APP_KEY1}+${process.env.REACT_APP_KEY2}`
+    secretAccessKey: `${process.env.REACT_APP_KEY1}+${process.env
+      .REACT_APP_KEY2}`
   };
 
   const post = async s3URL => {
@@ -139,9 +139,9 @@ export default function NewPost(props) {
                 variant="raised"
                 component="span"
                 fullWidth
-                className={classes.button}
+                className="upload-btn"
               >
-                Upload image
+                + Upload image
               </Button>
             </label>
             <Button

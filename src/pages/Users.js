@@ -21,7 +21,7 @@ export default function Users(props) {
   const { searchResults } = props;
 
   return (
-    <Container className="search-results">
+    <Container className="search-results" style={{ marginTop: "120px" }}>
       <img
         className="img-search-result"
         alt="..."
