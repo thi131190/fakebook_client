@@ -40,7 +40,7 @@ export default function NewPost(props) {
     dirName: "fakebook" /* optional */,
     region: "us-west-2",
     accessKeyId: `${process.env.REACT_APP_CLIENT}`,
-    secretAccessKey: `${process.env.REACT_APP_KEY}`
+    secretAccessKey: `${process.env.REACT_APP_KEY1}+${process.env.REACT_APP_KEY2}`
   };
 
   const post = async s3URL => {
